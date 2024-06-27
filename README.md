@@ -4,7 +4,7 @@ Api criada como desafio para o módulo 2 de Node Js da Rocketsead
 
 Requisitos
 
-[] Deve ser possível criar um usuário
+[X] Deve ser possível criar um usuário
 [] Deve ser possível identificar o usuário entre as requisições
 [] Deve ser possível registrar uma refeição feita, com as seguintes informações:
 _As refeições devem ser relacionadas a um usuário._
