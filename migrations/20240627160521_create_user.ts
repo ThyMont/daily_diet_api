@@ -1,8 +1,9 @@
 import type { Knex } from "knex";
+import { randomUUID } from "crypto";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("users", (table) => {
-    table.uuid("id").primary();
+    table.uuid("userId").primary().defaultTo(randomUUID());
     table.text("name").notNullable();
     table.text("username").notNullable().unique();
     table.text("password").notNullable();
@@ -12,5 +13,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.dropTable("users");
+  return await knex.schema.dropTable("users");
 }

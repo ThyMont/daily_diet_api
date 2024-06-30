@@ -4,6 +4,7 @@ import userService from "../service/user.service";
 
 export async function createNewUser(request: FastifyRequest, reply: FastifyReply) {
   const user = newUserSchema.safeParse(request.body);
+  console.log("aqui");
   let userId;
   if (user.success) {
     userId = await userService.createNewUser(user.data);
