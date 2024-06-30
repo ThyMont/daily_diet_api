@@ -31,3 +31,22 @@ export async function detailMeal(request: FastifyRequest, reply: FastifyReply) {
 
   return reply.send({ meal });
 }
+
+export async function updateMeal(request: FastifyRequest, reply: FastifyReply) {
+  const { userId = "" } = request.cookies;
+  const mealId = mealIdSchema.parse(request.params).id;
+  const updatedMeal = newMealSchema.safeParse(request.body);
+  const meal = await mealService.detailMeal(mealId, userId);
+
+  if (!meal) {
+    return reply.status(404).send({ error: "Meal not found" });
+  }
+
+  if (updatedMeal.success) {
+    await mealService.updateMeal(updatedMeal.data, mealId, userId);
+  } else {
+    return reply.status(500).send();
+  }
+
+  return reply.status(201).send();
+}

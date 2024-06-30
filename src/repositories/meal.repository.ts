@@ -24,5 +24,12 @@ async function findMealByIdAndUserId(mealId: string, userId: string) {
     .first();
   return meal;
 }
+async function updateMealByIdAndUserId(meal: newMealType, mealId: string, userId: string) {
+  await knex("meals")
+    .where({ mealId, userId }) // Filtra pelo mealId e userId
+    .update({
+      ...meal,
+    });
+}
 
-export default { saveNewMeal, listAllMealsByUser, findMealByIdAndUserId };
+export default { saveNewMeal, listAllMealsByUser, findMealByIdAndUserId, updateMealByIdAndUserId };
