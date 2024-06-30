@@ -25,5 +25,9 @@ export async function detailMeal(request: FastifyRequest, reply: FastifyReply) {
   const mealId = mealIdSchema.parse(request.params).id;
   const meal = await mealService.detailMeal(mealId, userId);
 
+  if (!meal) {
+    reply.status(404).send({ error: "Meal not found" });
+  }
+
   return reply.send({ meal });
 }
