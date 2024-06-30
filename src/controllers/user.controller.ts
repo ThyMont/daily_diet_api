@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { newUserSchema } from "../schemas/user.schema";
+import { NewUserSchema } from "../schemas/user.schema";
 import userService from "../service/user.service";
 
 export async function createNewUser(request: FastifyRequest, reply: FastifyReply) {
-  const user = newUserSchema.safeParse(request.body);
+  const user = NewUserSchema.safeParse(request.body);
   console.log("aqui");
   let userId;
   if (user.success) {
@@ -16,4 +16,10 @@ export async function createNewUser(request: FastifyRequest, reply: FastifyReply
     return reply.status(500).send();
   }
   return reply.status(201).send();
+}
+
+export async function getUserSummary(request: FastifyRequest, reply: FastifyReply) {
+  const { userId = "" } = request.cookies;
+  const summary = await userService.getUserSummary(userId);
+  return reply.send({ summary });
 }
