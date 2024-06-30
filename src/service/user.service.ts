@@ -10,7 +10,7 @@ async function getUserSummary(userId: string): Promise<MealSummary> {
   const totalMealsRegistered = await mealRepository.countTotalMealsByUser(userId);
   const mealsWithinDiet = await mealRepository.countMealsByUserAndCompliance(userId, true);
   const mealsOutsideDiet = await mealRepository.countMealsByUserAndCompliance(userId, false);
-  const bestDietSequence = 1;
+  const bestDietSequence = await countBestSequenceByCompliance(userId);
   const summary: MealSummary = {
     totalMealsRegistered,
     mealsWithinDiet,
@@ -19,6 +19,23 @@ async function getUserSummary(userId: string): Promise<MealSummary> {
   };
 
   return summary;
+}
+
+async function countBestSequenceByCompliance(userId: string): Promise<number> {
+  const meals = await mealRepository.listAllMealsByUser(userId);
+  let maxSequence = 0;
+  let currentSequence = 0;
+
+  for (const meal of meals) {
+    if (meal.compliance) {
+      currentSequence++;
+      maxSequence = Math.max(maxSequence, currentSequence);
+    } else {
+      currentSequence = 0;
+    }
+  }
+
+  return maxSequence;
 }
 
 export default { createNewUser, getUserSummary };
