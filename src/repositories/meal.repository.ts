@@ -26,10 +26,19 @@ async function findMealByIdAndUserId(mealId: string, userId: string) {
 }
 async function updateMealByIdAndUserId(meal: newMealType, mealId: string, userId: string) {
   await knex("meals")
-    .where({ mealId, userId }) // Filtra pelo mealId e userId
+    .where({ mealId, userId })
     .update({
       ...meal,
     });
 }
 
-export default { saveNewMeal, listAllMealsByUser, findMealByIdAndUserId, updateMealByIdAndUserId };
+async function deleteMealByIdAndUserId(mealId: string, userId: string) {
+  await knex("meals").where({ mealId, userId }).delete();
+}
+export default {
+  saveNewMeal,
+  listAllMealsByUser,
+  findMealByIdAndUserId,
+  updateMealByIdAndUserId,
+  deleteMealByIdAndUserId,
+};

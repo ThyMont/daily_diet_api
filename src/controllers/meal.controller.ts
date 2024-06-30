@@ -50,3 +50,17 @@ export async function updateMeal(request: FastifyRequest, reply: FastifyReply) {
 
   return reply.status(201).send();
 }
+
+export async function deleteMeal(request: FastifyRequest, reply: FastifyReply) {
+  const { userId = "" } = request.cookies;
+  const mealId = mealIdSchema.parse(request.params).id;
+  const meal = await mealService.detailMeal(mealId, userId);
+
+  if (!meal) {
+    reply.status(404).send({ error: "Meal not found" });
+  }
+
+  await mealService.deleteMeal(mealId, userId);
+
+  return reply.status(200).send();
+}

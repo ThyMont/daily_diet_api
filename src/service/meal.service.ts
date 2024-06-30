@@ -13,5 +13,8 @@ async function detailMeal(mealId: string, userId: string) {
 async function updateMeal(meal: newMealType, mealId: string, userId: string) {
   return await mealRepository.updateMealByIdAndUserId(meal, mealId, userId);
 }
+async function deleteMeal(mealId: string, userId: string) {
+  return await mealRepository.deleteMealByIdAndUserId(mealId, userId);
+}
 
-export default { createNewMeal, listAllMeals, detailMeal, updateMeal };
+export default { createNewMeal, listAllMeals, detailMeal, updateMeal, deleteMeal };
