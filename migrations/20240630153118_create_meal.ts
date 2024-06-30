@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   return await knex.schema.createTable("meals", (table) => {
     table.uuid("mealId").primary().defaultTo(knex.fn.uuid());
     table.text("name").notNullable();
-    table.text("description").notNullable().unique();
+    table.text("description").notNullable();
     table.text("datetime").notNullable();
     table.boolean("compliance").notNullable();
     table.text("created_at").defaultTo(new Date()).notNullable();
