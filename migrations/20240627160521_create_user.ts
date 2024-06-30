@@ -1,9 +1,8 @@
 import type { Knex } from "knex";
-import { randomUUID } from "crypto";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("users", (table) => {
-    table.uuid("userId").primary().defaultTo(randomUUID());
+    table.uuid("userId").primary().defaultTo(knex.fn.uuid());
     table.text("name").notNullable();
     table.text("username").notNullable().unique();
     table.text("password").notNullable();

@@ -10,5 +10,19 @@ async function saveNewMeal(meal: newMealType, userId: string) {
     datetime: meal.datetime,
   });
 }
+async function listAllMealsByUser(userId: string) {
+  const meals = await knex("meals")
+    .select("mealId", "name", "description", "datetime", "compliance")
+    .where("userId", userId);
+  return meals;
+}
+async function findMealByIdAndUserId(mealId: string, userId: string) {
+  const meal = await knex("meals")
+    .select("mealId", "name", "description", "datetime", "compliance")
+    .where("mealId", mealId)
+    .andWhere("userId", userId)
+    .first();
+  return meal;
+}
 
-export default { saveNewMeal };
+export default { saveNewMeal, listAllMealsByUser, findMealByIdAndUserId };

@@ -8,3 +8,7 @@ export const newMealSchema = z.object({
 });
 
 export type newMealType = z.infer<typeof newMealSchema>;
+
+export const mealIdSchema = z.object({
+  id: z.string(),
+});

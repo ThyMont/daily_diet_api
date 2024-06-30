@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { newMealSchema } from "../schemas/meal.schema";
+import { mealIdSchema, newMealSchema } from "../schemas/meal.schema";
 import mealService from "../service/meal.service";
 
 export async function createNewMeal(request: FastifyRequest, reply: FastifyReply) {
@@ -11,4 +11,19 @@ export async function createNewMeal(request: FastifyRequest, reply: FastifyReply
     return reply.status(500).send();
   }
   return reply.status(201).send();
+}
+
+export async function listAllMeals(request: FastifyRequest, reply: FastifyReply) {
+  const { userId = "" } = request.cookies;
+  const meals = await mealService.listAllMeals(userId);
+
+  return reply.send({ meals });
+}
+
+export async function detailMeal(request: FastifyRequest, reply: FastifyReply) {
+  const { userId = "" } = request.cookies;
+  const mealId = mealIdSchema.parse(request.params).id;
+  const meal = await mealService.detailMeal(mealId, userId);
+
+  return reply.send({ meal });
 }
